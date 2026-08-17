@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anshika Singh | Full Stack & Software Developer Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Anshika Singh - Software Developer, Full Stack Engineer specializing in React, Node.js, Python, Cloud & High Performance Web Applications.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Devicon CDN for Tech Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Infinite Motion Background Canvas -->
+  <canvas id="motion-canvas" aria-hidden="true"></canvas>
+
+  <!-- Background Ambient Glow Effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress"></div>
+
+  <!-- Floating Navigation Bar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" id="navbar">
+      <a href="#hero" class="nav-logo" aria-label="Home">
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-text">Anshika<span class="logo-accent">.Dev</span></span>
+        <span class="logo-bracket">/&gt;</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#certifications" class="nav-link">Certifications</a></li>
+        <li><a href="#events" class="nav-link">Events</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Nav Actions (Theme Switcher & Status & Resume) -->
+      <div class="nav-actions">
+        <a href="resume.pdf" target="_blank" download="Anshika_Singh_Resume.pdf" class="btn btn-outline"
+          style="padding: 6px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;"
+          onclick="window.open('resume.pdf', '_blank');">
+          <i data-lucide="file-text"></i>
+          <span>Resume</span>
+        </a>
+        <div class="status-pill" title="Available for new full stack opportunities">
+          <span class="status-dot"></span>
+          <span class="status-text">Available</span>
+        </div>
+
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Light/Dark Theme">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Open Navigation Menu">
+          <i data-lucide="menu" class="open-icon"></i>
+          <i data-lucide="x" class="close-icon"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        <!-- Hero Left Info -->
+        <div class="hero-info" data-tilt-reset="false">
+          <div class="badge-pill hero-badge">
+            <i data-lucide="terminal" class="badge-icon"></i>
+            <span>Full Stack Developer &amp; Software Engineer</span>
+          </div>
+
+          <h1 class="hero-title">
+            Hi, I'm <span class="gradient-text">Anshika Singh</span>
+          </h1>
+
+          <div class="typing-container">
+            <span class="typing-prefix">Building </span>
+            <span id="typing-text" class="typing-text"></span>
+            <span class="typing-cursor">|</span>
+          </div>
+
+          <p class="hero-bio">
+            Passionate Software Developer craftings robust scalable backends, high-performance web applications, and
+            intuitive user experiences. Specialized in React, TypeScript, Python, Node.js, and Cloud Infrastructure.
+          </p>
+
+          <!-- Quick Metrics -->
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <span class="metric-number" data-count="3">3+</span>
+              <span class="metric-label">Years Coding</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number" data-count="15">15+</span>
+              <span class="metric-label">Projects Built</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number" data-count="15">18+</span>
+              <span class="metric-label">Tech Stack Tools</span>
+            </div>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span>Explore Projects</span>
+              <i data-lucide="arrow-right"></i>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <i data-lucide="mail"></i>
+              <span>Get In Touch</span>
+            </a>
+            <a href="resume.pdf" target="_blank" download="Anshika_Singh_Resume.pdf" class="btn btn-outline"
+              id="resume-download-btn" onclick="window.open('resume.pdf', '_blank');">
+              <i data-lucide="file-text"></i>
+              <span>Resume</span>
+            </a>
+          </div>
+
+          <!-- Social Links (Connect Badges) -->
+          <div class="hero-socials">
+            <span class="social-label">Connect:</span>
+            <a href="https://github.com/anshikasingh2605" target="_blank" rel="noopener"
+              class="social-link social-github" aria-label="GitHub" title="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-github">
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                </path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/anshika-singh-9838an26" target="_blank" rel="noopener"
+              class="social-link social-linkedin" aria-label="LinkedIn" title="LinkedIn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-linkedin">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link social-instagram"
+              aria-label="Instagram" title="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-instagram">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="mailto:anshusingh262005@gmail.com" class="social-link social-email" aria-label="Email"
+              title="Email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-mail">
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Right Visual Card -->
+        <div class="hero-visual">
+          <div class="hero-3d-card motion-card" id="hero-card">
+            <div class="hero-avatar-frame">
+              <img src="assets/hero.png" alt="Anshika Singh - Full Stack Developer" class="hero-avatar-img">
+              <div class="hero-avatar-overlay">
+                <div class="hero-avatar-tag">
+                  <span class="pulse-green-dot"></span> Full Stack Engineer
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Social Badges Orbiting around the Profile Circle -->
+            <a href="https://github.com/anshikasingh2605" target="_blank" rel="noopener"
+              class="orbit-badge badge-github" title="GitHub Profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-github">
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                </path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+              </svg> <span>GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/anshika-singh-9838an26" target="_blank" rel="noopener"
+              class="orbit-badge badge-linkedin" title="LinkedIn Profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-linkedin">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg> <span>LinkedIn</span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="orbit-badge badge-instagram"
+              title="Instagram Profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-instagram">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg> <span>Instagram</span>
+            </a>
+            <a href="mailto:anshusingh262005@gmail.com" class="orbit-badge badge-email" title="Direct Email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-mail">
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg> <span>Email</span>
+            </a>
+
+            <div class="hero-card-glow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT ME SECTION -->
+    <section id="about" class="section-padding">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Left Column: Image Card with assets/hero.png -->
+          <div class="about-visual-wrapper motion-card">
+            <div class="about-image-card">
+              <div class="about-avatar-container">
+                <img src="assets/hero.png" alt="Anshika Singh - Software Developer" class="about-avatar-img">
+                <div class="about-avatar-glow"></div>
+              </div>
+
+              <!-- Floating Interactive Badges -->
+              <div class="about-float-badge badge-top-left">
+                <i data-lucide="layers"></i> Full Stack
+              </div>
+              <div class="about-float-badge badge-bottom-right">
+                <i data-lucide="sparkles"></i> MERN &amp; Java DSA
+              </div>
+              <div class="about-experience-tag">
+                <span class="exp-num">8.00</span>
+                <span class="exp-text">B.Tech CGPA</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Bio Info & Hover Animated Feature Cards -->
+          <div class="about-content">
+            <span class="section-subtitle">&lt;WHO I AM /&gt;</span>
+            <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+            <p class="about-lead">
+              I am a dedicated <strong>Software Developer &amp; Full Stack Engineer</strong> driven by creating
+              high-performance web applications, scalable backends, and intuitive user experiences.
+            </p>
+            <p class="about-text">
+              My engineering stack spans modern JavaScript/TypeScript frameworks (React, Next.js, Redux) to robust
+              server-side architectures (Node.js, Express, Python, Django) and relational databases (PostgreSQL, MySQL).
+              I place heavy emphasis on clean code principles, test-driven development, and cloud scalability.
+            </p>
+
+            <!-- Interactive Hover Feature Cards -->
+            <div class="about-features-grid">
+              <div class="about-feature-card motion-card">
+                <div class="feature-icon-box">
+                  <i data-lucide="layout-grid"></i>
+                </div>
+                <div class="feature-info">
+                  <h4>Frontend Engineering</h4>
+                  <p>Crafting reactive, responsive, and micro-animated UIs with React, TypeScript, &amp; Tailwind CSS.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-feature-card motion-card">
+                <div class="feature-icon-box">
+                  <i data-lucide="database"></i>
+                </div>
+                <div class="feature-info">
+                  <h4>Backend Architecture</h4>
+                  <p>Building scalable RESTful &amp; GraphQL APIs, Microservices, Node.js engines, &amp; Redis caching.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-feature-card motion-card">
+                <div class="feature-icon-box">
+                  <i data-lucide="cloud"></i>
+                </div>
+                <div class="feature-info">
+                  <h4>DevOps &amp; Cloud Tools</h4>
+                  <p>Containerizing applications with Docker, setup CI/CD pipelines, AWS deployment, &amp; Monitoring.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-feature-card motion-card">
+                <div class="feature-icon-box">
+                  <i data-lucide="brain-circuit"></i>
+                </div>
+                <div class="feature-info">
+                  <h4>Problem Solving</h4>
+                  <p>Over 500+ data structures &amp; algorithm challenges solved with optimal time &amp; space
+                    complexity.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Meta Badges -->
+            <div class="about-meta-chips">
+              <span class="meta-chip"><i data-lucide="map-pin"></i> Based in India</span>
+              <span class="meta-chip"><i data-lucide="briefcase"></i> Open for Full-Time Roles</span>
+              <span class="meta-chip"><i data-lucide="coffee"></i> Fuelled by Problem Solving</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION TIMELINE SECTION -->
+    <section id="education" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;MY ACADEMICS /&gt;</span>
+          <h2 class="section-title">Education <span class="gradient-text">Timeline</span></h2>
+          <p class="section-description">A chronological overview of my academic foundation, degree achievements, and
+            core coursework.</p>
+        </div>
+
+        <div class="timeline">
+          <!-- Timeline Item 1 -->
+          <div class="timeline-item motion-card">
+            <div class="timeline-dot"><i data-lucide="graduation-cap"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <span class="timeline-period">2023 &mdash; 2027</span>
+                <span class="timeline-tag">Bachelor of Technology</span>
+              </div>
+              <h3 class="timeline-title">B.Tech with Specialization in Computer Science &amp; Engineering</h3>
+              <h4 class="timeline-institution">R.R. Institute Of Modern Technology, Lucknow (AKTU)</h4>
+              <p class="timeline-text">
+                Focused on Object-Oriented Programming (OOP), Data Structures &amp; Algorithms, Operating Systems, DBMS,
+                SDLC, Software Testing, and Cloud Integration.
+              </p>
+              <div class="timeline-highlights">
+                <span class="highlight-chip"><i data-lucide="award"></i> CGPA: 8.00 (till sem VI)</span>
+                <span class="highlight-chip"><i data-lucide="book-open"></i> AKTU Affiliated</span>
+                <span class="highlight-chip"><i data-lucide="code-2"></i> Best Performer - Advanced MERN &amp;
+                  DSA</span>
+              </div>
+              <div class="timeline-skills">
+                <span>Core Subjects:</span>
+                <div class="tech-tags">
+                  <span class="tag">DSA</span>
+                  <span class="tag">OOP</span>
+                  <span class="tag">DBMS</span>
+                  <span class="tag">SDLC</span>
+                  <span class="tag">Software Testing</span>
+                  <span class="tag">Full-Stack Dev</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="timeline-item motion-card">
+            <div class="timeline-dot"><i data-lucide="school"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <span class="timeline-period">2022 &mdash; 2023</span>
+                <span class="timeline-tag">Senior Secondary (XII)</span>
+              </div>
+              <h3 class="timeline-title">Intermediate (XII)</h3>
+              <h4 class="timeline-institution">A.B.S International School (CBSE)</h4>
+              <p class="timeline-text">
+                Specialized in Physics, Chemistry, Higher Mathematics, and Computer Science foundation.
+              </p>
+              <div class="timeline-highlights">
+                <span class="highlight-chip"><i data-lucide="award"></i> Percentage: 83.4%</span>
+                <span class="highlight-chip"><i data-lucide="check-circle-2"></i> CBSE Board</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="timeline-item motion-card">
+            <div class="timeline-dot"><i data-lucide="award"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <span class="timeline-period">2020 &mdash; 2021</span>
+                <span class="timeline-tag">High School (X)</span>
+              </div>
+              <h3 class="timeline-title">High School (X)</h3>
+              <h4 class="timeline-institution">A.B.S International School (CBSE)</h4>
+              <p class="timeline-text">
+                Achieved top academic distinction with high merit scores across Science and Mathematics.
+              </p>
+              <div class="timeline-highlights">
+                <span class="highlight-chip"><i data-lucide="trophy"></i> Percentage: 94.6%</span>
+                <span class="highlight-chip"><i data-lucide="check-circle-2"></i> Distinction Honors</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="section-padding alt-bg">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;TECHNICAL SKILLS /&gt;</span>
+          <h2 class="section-title">Skills &amp; <span class="gradient-text">Proficiencies</span></h2>
+          <p class="section-description">Comprehensive technical expertise across programming languages, web
+            engineering, databases, core CS concepts, cloud platforms, and developer practices.</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">All Skills</button>
+          <button class="filter-btn" data-filter="languages">Languages</button>
+          <button class="filter-btn" data-filter="frameworks">Frameworks &amp; Web</button>
+          <button class="filter-btn" data-filter="database">Databases &amp; SQL</button>
+          <button class="filter-btn" data-filter="core">Core Concepts</button>
+          <button class="filter-btn" data-filter="cloud">Cloud &amp; AI</button>
+          <button class="filter-btn" data-filter="tools">Tools &amp; Practices</button>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="skills-grid">
+          <!-- 1. PROGRAMMING LANGUAGES -->
+          <div class="skill-card motion-card" data-category="languages">
+            <div class="skill-icon-wrap">
+              <i class="devicon-java-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Java</h3>
+              <span class="skill-level">Core OOP &amp; DSA Mastery</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 92%;"></div>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="languages">
+            <div class="skill-icon-wrap">
+              <i class="devicon-python-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Python</h3>
+              <span class="skill-level">CLI, Automation &amp; Backend</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="languages">
+            <div class="skill-icon-wrap">
+              <i class="devicon-c-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">C Language</h3>
+              <span class="skill-level">Procedural &amp; Memory Basics</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 85%;"></div>
+            </div>
+            <span class="skill-percent">85%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="languages">
+            <div class="skill-icon-wrap">
+              <i class="devicon-csharp-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">C#</h3>
+              <span class="skill-level">Object-Oriented Programming</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 82%;"></div>
+            </div>
+            <span class="skill-percent">75%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="languages">
+            <div class="skill-icon-wrap">
+              <i class="devicon-javascript-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">JavaScript (ES6+)</h3>
+              <span class="skill-level">Modern Async &amp; Full-Stack</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 95%;"></div>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+
+          <!-- 2. FRAMEWORKS & TECHNOLOGIES -->
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-react-original colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">MERN Stack</h3>
+              <span class="skill-level">MongoDB, Express, React, Node</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 94%;"></div>
+            </div>
+            <span class="skill-percent">94%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-react-original colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">React.js</h3>
+              <span class="skill-level">Hooks, Components &amp; State</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 92%;"></div>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-nodejs-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Node.js</h3>
+              <span class="skill-level">Event-Driven Backend Runtime</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-express-original"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Express.js</h3>
+              <span class="skill-level">RESTful APIs &amp; Middleware</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">89%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-dotnetcore-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">.NET &amp; ASP.NET Core</h3>
+              <span class="skill-level">Enterprise Backend Web APIs</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 80%;"></div>
+            </div>
+            <span class="skill-percent">70%</span>
+          </div>
+
+          <!-- 3. WEB DEVELOPMENT -->
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i class="devicon-html5-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">HTML5 &amp; CSS3</h3>
+              <span class="skill-level">Semantic Layouts &amp; Responsive UI</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 95%;"></div>
+            </div>
+            <span class="skill-percent">95%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i data-lucide="network"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">REST APIs &amp; Integration</h3>
+              <span class="skill-level">API Architecture, Endpoints &amp; JSON</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 90%;"></div>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="frameworks">
+            <div class="skill-icon-wrap">
+              <i data-lucide="layers"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Full-Stack Development</h3>
+              <span class="skill-level">End-to-End Client &amp; Server Systems</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 92%;"></div>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+
+          <!-- 4. DATABASES -->
+          <div class="skill-card motion-card" data-category="database">
+            <div class="skill-icon-wrap">
+              <i class="devicon-mysql-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">MySQL &amp; SQL</h3>
+              <span class="skill-level">Relational Database Schemas &amp; Queries</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="database">
+            <div class="skill-icon-wrap">
+              <i class="devicon-mongodb-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">MongoDB &amp; Atlas</h3>
+              <span class="skill-level">NoSQL Document Store &amp; Aggregations</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">89%</span>
+          </div>
+
+          <!-- 5. CORE CONCEPTS -->
+          <div class="skill-card motion-card" data-category="core">
+            <div class="skill-icon-wrap">
+              <i data-lucide="code-2"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Data Structures &amp; Algorithms</h3>
+              <span class="skill-level">Arrays, Trees, Graphs, DSA (500+ Solved)</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 94%;"></div>
+            </div>
+            <span class="skill-percent">85%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="core">
+            <div class="skill-icon-wrap">
+              <i data-lucide="boxes"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Object-Oriented Programming (OOP)</h3>
+              <span class="skill-level">Encapsulation, Polymorphism &amp; Inheritance</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 90%;"></div>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="core">
+            <div class="skill-icon-wrap">
+              <i data-lucide="workflow"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">SDLC &amp; DBMS</h3>
+              <span class="skill-level">Software Life Cycle &amp; Database Management</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">83%</span>
+          </div>
+
+          <!-- 6. CLOUD & AI -->
+          <div class="skill-card motion-card" data-category="cloud">
+            <div class="skill-icon-wrap">
+              <i class="devicon-azure-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Microsoft Azure &amp; Azure AI</h3>
+              <span class="skill-level">Cloud Services, Proctoring &amp; Cognitive AI</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 84%;"></div>
+            </div>
+            <span class="skill-percent">84%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="cloud">
+            <div class="skill-icon-wrap">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Cloud Deployment &amp; AI Integration</h3>
+              <span class="skill-level">Vercel, Render, LLMs &amp; APIs</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 86%;"></div>
+            </div>
+            <span class="skill-percent">86%</span>
+          </div>
+
+          <!-- 7. TOOLS & PLATFORMS -->
+          <div class="skill-card motion-card" data-category="tools">
+            <div class="skill-icon-wrap">
+              <i class="devicon-git-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Git &amp; GitHub</h3>
+              <span class="skill-level">Version Control, Branching &amp; Actions</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 92%;"></div>
+            </div>
+            <span class="skill-percent">92%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="tools">
+            <div class="skill-icon-wrap">
+              <i class="devicon-vscode-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">VS Code</h3>
+              <span class="skill-level">Primary Development IDE</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 95%;"></div>
+            </div>
+            <span class="skill-percent">95%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="tools">
+            <div class="skill-icon-wrap">
+              <i class="devicon-postman-plain colored"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Postman &amp; Thunder Client</h3>
+              <span class="skill-level">API Testing &amp; Endpoint Debugging</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 90%;"></div>
+            </div>
+            <span class="skill-percent">90%</span>
+          </div>
+
+          <!-- 8. DEVELOPMENT PRACTICES -->
+          <div class="skill-card motion-card" data-category="tools">
+            <div class="skill-icon-wrap">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Authentication &amp; Security</h3>
+              <span class="skill-level">JWT, Google OAuth, OTP &amp; Password Hashing</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+
+          <div class="skill-card motion-card" data-category="tools">
+            <div class="skill-icon-wrap">
+              <i data-lucide="terminal"></i>
+            </div>
+            <div class="skill-info">
+              <h3 class="skill-name">Backend Dev, Testing &amp; Deployment</h3>
+              <span class="skill-level">Software Testing, CI/CD &amp; Live Deployment</span>
+            </div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar" style="width: 88%;"></div>
+            </div>
+            <span class="skill-percent">88%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;PORTFOLIO SHOWCASE /&gt;</span>
+          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <p class="section-description">Explore a collection of web applications, microservices, and full stack
+            solutions I have designed and built.</p>
+        </div>
+
+        <!-- Project Filter Buttons -->
+        <div class="filter-tabs">
+          <button class="project-filter-btn active" data-project-filter="all">All Projects</button>
+          <button class="project-filter-btn" data-project-filter="fullstack">Full Stack</button>
+          <button class="project-filter-btn" data-project-filter="frontend">Frontend UI</button>
+          <button class="project-filter-btn" data-project-filter="backend">Backend &amp; Cloud</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+          <!-- Project 1: CareerForageAI -->
+          <article class="project-card motion-card" data-project-category="fullstack">
+            <div class="project-preview-container">
+              <img src="assets/careerforage.png" alt="CareerForageAI Platform Screenshot" class="project-preview-img">
+              <div class="project-overlay">
+                <button class="view-details-btn" data-modal="modal-project-1">
+                  <i data-lucide="eye"></i> View Details
+                </button>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span class="project-badge">Full Stack Developer</span>
+                <span class="project-stars"><i data-lucide="calendar"></i> Apr 2026 &mdash; Present</span>
+              </div>
+              <h3 class="project-title">CareerForageAI &ndash; All In One AI Tools Platform</h3>
+              <p class="project-desc">
+                Architected an all-in-one AI career ecosystem featuring a Resume Builder, ATS Analyzer, AI Resume
+                Writer, Portfolio Generator, and Career Roadmap modules. Integrated AI APIs for skill-gap analysis, ATS
+                score optimization, and dynamic resume generation.
+              </p>
+              <div class="tech-tags">
+                <span class="tag">React (Vite)</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Express.js</span>
+                <span class="tag">MongoDB Atlas</span>
+                <span class="tag">REST APIs</span>
+                <span class="tag">Vercel</span>
+                <span class="tag">Render</span>
+              </div>
+              <div class="project-links">
+                <a href="https://career-forage-olive.vercel.app" target="_blank" rel="noopener"
+                  class="project-link primary">
+                  <i data-lucide="external-link"></i> Live Demo (career-forage-olive.vercel.app)
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Abhyas AI -->
+          <article class="project-card motion-card" data-project-category="fullstack">
+            <div class="project-preview-container">
+              <img src="assets/AbhyasAi.png" alt="Abhyas AI Platform Screenshot" class="project-preview-img">
+              <div class="project-overlay">
+                <button class="view-details-btn" data-modal="modal-project-2">
+                  <i data-lucide="eye"></i> View Details
+                </button>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span class="project-badge">Frontend Lead &amp; API Integration</span>
+                <span class="project-stars"><i data-lucide="calendar"></i> Jun 2026 &mdash; Present</span>
+              </div>
+              <h3 class="project-title">Abhyas AI &ndash; Online Testing &amp; Practice Platform</h3>
+              <p class="project-desc">
+                Led frontend architecture for a live assessment platform deployed on abhyasai.app (validated across 100+
+                student test sessions). Engineered secure lockdown test environment featuring camera/audio proctoring
+                alongside strict tab switching, right-clicking, and copy-pasting prevention.
+              </p>
+              <div class="tech-tags">
+                <span class="tag">React (Vite)</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Express.js</span>
+                <span class="tag">MongoDB Atlas</span>
+                <span class="tag">Azure AI</span>
+                <span class="tag">ExcelJS</span>
+              </div>
+              <div class="project-links">
+                <a href="https://abhyasai.app" target="_blank" rel="noopener" class="project-link primary">
+                  <i data-lucide="external-link"></i> Live Demo (abhyasai.app)
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Client Freelance Portfolio -->
+          <article class="project-card motion-card" data-project-category="frontend">
+            <div class="project-preview-container">
+              <img src="assets/Freelance.png" alt="Riya Singh Portfolio Screenshot" class="project-preview-img">
+              <div class="project-overlay">
+                <button class="view-details-btn" data-modal="modal-project-3">
+                  <i data-lucide="eye"></i> View Details
+                </button>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span class="project-badge">Freelance Web Developer</span>
+                <span class="project-stars"><i data-lucide="award"></i> Client Project</span>
+              </div>
+              <h3 class="project-title">Riya Singh Portfolio &ndash; Freelance Client Website</h3>
+              <p class="project-desc">
+                Designed &amp; engineered a high-converting, dynamic client portfolio website. Integrated Cloudinary CDN
+                for ultra-fast, optimized media delivery, smooth CSS micro-interactions, Git version control, and
+                production deployment on Vercel.
+              </p>
+              <div class="tech-tags">
+                <span class="tag">HTML5</span>
+                <span class="tag">CSS3</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Cloudinary</span>
+                <span class="tag">Git / GitHub</span>
+                <span class="tag">Vercel</span>
+              </div>
+              <div class="project-links">
+                <a href="https://riya-singh-livid.vercel.app/" target="_blank" rel="noopener"
+                  class="project-link primary">
+                  <i data-lucide="external-link"></i> Live Demo (riya-singh-livid.vercel.app)
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Python CLI Movie Recommendation Engine -->
+          <article class="project-card motion-card" data-project-category="backend">
+            <div class="project-preview-container">
+              <img src="assets/movie_cli.png" alt="Python CLI Movie Recommendation Engine Screenshot"
+                class="project-preview-img">
+              <div class="project-overlay">
+                <button class="view-details-btn" data-modal="modal-project-4">
+                  <i data-lucide="eye"></i> View Details
+                </button>
+              </div>
+            </div>
+            <div class="project-content">
+              <div class="project-meta">
+                <span class="project-badge">Python CLI Application</span>
+                <span class="project-stars"><i data-lucide="terminal"></i> Terminal CLI</span>
+              </div>
+              <h3 class="project-title">IMDb CLI Movie Recommender &amp; Watchlist Manager</h3>
+              <p class="project-desc">
+                Interactive terminal-based movie recommendation system built in Python. Interactively filters top 20
+                IMDb-rated movies by Genre, Industry (Hollywood vs. Bollywood), and Era (New vs. Classic Oldies).
+                Features a dynamic watchlist CRUD system (Add, Delete, &amp; Save for Later).
+              </p>
+              <div class="tech-tags">
+                <span class="tag">Python 3</span>
+                <span class="tag">IMDb Data</span>
+                <span class="tag">CLI Prompts</span>
+                <span class="tag">OOP Architecture</span>
+                <span class="tag">File I/O</span>
+                <span class="tag">Watchlist CRUD</span>
+              </div>
+              <div class="project-links">
+                <button class="project-link primary"
+                  onclick="alert('Terminal CLI Python Application. Interactive command-line movie recommender with IMDb ratings & watchlist CRUD features.'); return false;">
+                  <i data-lucide="terminal"></i> Terminal CLI Project
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS & ACHIEVEMENTS SECTION -->
+    <section id="certifications" class="section-padding alt-bg">
+      <div class="container">
+        <!-- ROW 1: CERTIFICATIONS -->
+        <div class="row-header">
+          <span class="section-subtitle">&lt;VERIFIED CREDENTIALS /&gt;</span>
+          <h2 class="section-title">Professional <span class="gradient-text">Certifications</span></h2>
+        </div>
+
+        <div class="certifications-row">
+          <!-- Cert Card 1 -->
+          <div class="cert-card motion-card" data-cert-title="Advanced MERN and DSA with Java (BEST PERFORMER)"
+            data-cert-issuer="Edrealm"
+            data-cert-desc="Awarded Best Performer distinction in Advanced MERN Stack Development and Data Structures &amp; Algorithms using Java conducted by Edrealm."
+            data-cert-img="assets/Edrealm.png">
+            <div class="cert-image-preview">
+              <img src="assets/Edrealm.png" alt="Advanced MERN and DSA with Java - Edrealm Certificate"
+                class="cert-real-img">
+              <div class="cert-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>View Full Certificate</span>
+              </div>
+            </div>
+            <div class="cert-details">
+              <div class="cert-meta-header">
+                <span class="cert-issuer">Edrealm</span>
+                <span class="cert-verified-badge"><i data-lucide="shield-check"></i> Best Performer</span>
+              </div>
+              <h3 class="cert-name">Advanced MERN and DSA with Java</h3>
+              <p class="cert-desc">Specialized training certification in full stack MERN application development, API
+                optimization, and algorithmic problem solving with Java.</p>
+              <div class="cert-footer">
+                <span class="cert-date"><i data-lucide="check-circle-2"></i> Verified Distinction</span>
+                <span class="cert-id">Edrealm Certified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cert Card 2 -->
+          <div class="cert-card motion-card" data-cert-title="Full Stack MERN Development"
+            data-cert-issuer="Apna College"
+            data-cert-desc="Comprehensive Certification in Full Stack MERN Development covering React, Node.js, Express, MongoDB, REST APIs, and production deployment."
+            data-cert-img="assets/ApnaCollege.png">
+            <div class="cert-image-preview">
+              <img src="assets/ApnaCollege.png" alt="Full Stack MERN Development - Apna College Certificate"
+                class="cert-real-img">
+              <div class="cert-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>View Full Certificate</span>
+              </div>
+            </div>
+            <div class="cert-details">
+              <div class="cert-meta-header">
+                <span class="cert-issuer">Apna College</span>
+                <span class="cert-verified-badge"><i data-lucide="check-circle-2"></i> Verified</span>
+              </div>
+              <h3 class="cert-name">Full Stack MERN Development</h3>
+              <p class="cert-desc">Mastered end-to-end web engineering building real-world MERN SaaS platforms,
+                authentication workflows, and cloud deployments.</p>
+              <div class="cert-footer">
+                <span class="cert-date"><i data-lucide="check-circle-2"></i> Apna College</span>
+                <span class="cert-id">MERN Stack</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cert Card 3 -->
+          <div class="cert-card motion-card" data-cert-title="Intermediate Data Structure and Algorithm using Java"
+            data-cert-issuer="Trainx"
+            data-cert-desc="Professional certification in Data Structures, Sorting Algorithms, Recursion, Trees, Graphs, and Complexity Analysis in Java.">
+            <div class="cert-image-preview cert-visual-leetcode">
+              <div class="cert-seal">
+                <i data-lucide="code-2"></i>
+              </div>
+              <div class="cert-preview-info">
+                <span class="cert-badge-type">DSA CERTIFIED</span>
+                <h4>Data Structures &amp; Algorithms</h4>
+                <span class="cert-sub-text">Trainx Java Certification</span>
+              </div>
+              <div class="cert-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>View Full Certificate</span>
+              </div>
+            </div>
+            <div class="cert-details">
+              <div class="cert-meta-header">
+                <span class="cert-issuer">Trainx</span>
+                <span class="cert-verified-badge"><i data-lucide="check-circle-2"></i> Verified</span>
+              </div>
+              <h3 class="cert-name">Intermediate DSA using Java</h3>
+              <p class="cert-desc">In-depth training on core algorithmic patterns, memory optimization, stacks, queues,
+                binary search trees, and graph algorithms.</p>
+              <div class="cert-footer">
+                <span class="cert-date"><i data-lucide="check-circle-2"></i> Trainx</span>
+                <span class="cert-id">Java DSA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: ACHIEVEMENTS & LIVE CODING ANALYTICS -->
+        <div class="row-header" style="margin-top: 80px;">
+          <span class="section-subtitle">&lt;COMPETITIVE CODING &amp; HONORS /&gt;</span>
+          <h2 class="section-title">Achievements &amp; <span class="gradient-text">Coding Tracker</span></h2>
+          <p class="section-description">Real-time competitive coding metrics across LeetCode, GeeksforGeeks, and
+            HackerRank.</p>
+        </div>
+
+        <div class="achievements-analytics-grid">
+          <!-- LeetCode Real-Time Analytics Card -->
+          <div class="analytics-card motion-card">
+            <div class="card-top-bar">
+              <div class="platform-badge leetcode-badge">
+                <i data-lucide="code-2"></i> LeetCode Profile Tracker
+              </div>
+              <span class="live-status" id="leetcode-sync-status"><span class="live-dot"></span> Live Sync</span>
+            </div>
+
+            <div class="leetcode-stats-body">
+              <div class="total-solved-dial">
+                <svg viewBox="0 0 100 100" class="dial-svg">
+                  <circle cx="50" cy="50" r="42" class="dial-bg"></circle>
+                  <circle cx="50" cy="50" r="42" id="leetcode-dial-fill" class="dial-fill"
+                    style="stroke-dashoffset: 65;"></circle>
+                </svg>
+                <div class="dial-content">
+                  <span class="dial-number" id="leetcode-total">119</span>
+                  <span class="dial-label">Solved</span>
+                </div>
+              </div>
+
+              <div class="difficulty-bars">
+                <!-- Easy -->
+                <div class="diff-row">
+                  <div class="diff-header">
+                    <span class="diff-name diff-easy">Easy</span>
+                    <span class="diff-count" id="leetcode-easy">66 / 800</span>
+                  </div>
+                  <div class="diff-bar-bg">
+                    <div class="diff-bar-fill fill-easy" id="bar-easy" style="width: 70%;"></div>
+                  </div>
+                </div>
+
+                <!-- Medium -->
+                <div class="diff-row">
+                  <div class="diff-header">
+                    <span class="diff-name diff-medium">Medium</span>
+                    <span class="diff-count" id="leetcode-medium">47 / 1600</span>
+                  </div>
+                  <div class="diff-bar-bg">
+                    <div class="diff-bar-fill fill-medium" id="bar-medium" style="width: 52%;"></div>
+                  </div>
+                </div>
+
+                <!-- Hard -->
+                <div class="diff-row">
+                  <div class="diff-header">
+                    <span class="diff-name diff-hard">Hard</span>
+                    <span class="diff-count" id="leetcode-hard">6 / 700</span>
+                  </div>
+                  <div class="diff-bar-bg">
+                    <div class="diff-bar-fill fill-hard" id="bar-hard" style="width: 22%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-footer">
+              <span>LeetCode Global Rank: <strong class="gradient-text"
+                  id="leetcode-rank-val">#1,426,458</strong></span>
+              <span>Submissions: <strong style="color: var(--accent-cyan);" id="leetcode-submissions">212
+                  Total</strong></span>
+            </div>
+          </div>
+
+          <!-- Multi-Platform Cumulative Question Calculator Card -->
+          <div class="analytics-card motion-card">
+            <div class="card-top-bar">
+              <div class="platform-badge multi-badge">
+                <i data-lucide="calculator"></i> Multi-Platform Calculator
+              </div>
+              <span class="live-status"><span class="live-dot"></span> Auto Calculator</span>
+            </div>
+
+            <div class="calculator-body">
+              <div class="grand-total-box">
+                <span class="grand-label">Total Coding Problems Solved</span>
+                <div class="grand-counter">
+                  <span id="grand-total-num" class="gradient-text">195+</span>
+                  <span class="grand-sub">Across All 3 Platforms</span>
+                </div>
+              </div>
+
+              <div class="platform-calculator-grid">
+                <!-- LeetCode -->
+                <div class="calc-platform-item">
+                  <div class="calc-plat-header">
+                    <span class="plat-name" style="color: #ffa116;"><i data-lucide="code-2"></i> LeetCode</span>
+                    <span class="plat-val" id="val-leetcode">119</span>
+                  </div>
+                  <div class="calc-bar-bg">
+                    <div class="calc-bar-fill" style="width: 61%; background: #ffa116;"></div>
+                  </div>
+                </div>
+
+                <!-- GeeksforGeeks -->
+                <div class="calc-platform-item">
+                  <div class="calc-plat-header">
+                    <span class="plat-name" style="color: #2f9d27;"><i data-lucide="book-open"></i> GeeksforGeeks
+                      (Score: 131)</span>
+                    <span class="plat-val" id="val-gfg">55</span>
+                  </div>
+                  <div class="calc-bar-bg">
+                    <div class="calc-bar-fill" style="width: 28%; background: #2f9d27;"></div>
+                  </div>
+                </div>
+
+                <!-- HackerRank -->
+                <div class="calc-platform-item">
+                  <div class="calc-plat-header">
+                    <span class="plat-name" style="color: #00ea64;"><i data-lucide="terminal"></i> HackerRank (3⭐ Java
+                      &amp; Python)</span>
+                    <span class="plat-val" id="val-hackerrank">21</span>
+                  </div>
+                  <div class="calc-bar-bg">
+                    <div class="calc-bar-fill" style="width: 11%; background: #00ea64;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="formula-banner">
+                <code
+                  id="formula-code">119 (LeetCode) + 55 (GFG) + 21 (HackerRank) = <strong>195 Total Solved</strong></code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Honors & Awards Side Grid -->
+          <div class="honors-card-col">
+            <div class="honor-card motion-card">
+              <div class="honor-badge-icon">
+                <i data-lucide="award"></i>
+              </div>
+              <div class="honor-info">
+                <span class="honor-org">Edrealm Award</span>
+                <h4 class="honor-title">Best Performer in Advanced MERN Stack Training</h4>
+                <p class="honor-desc">Awarded Best Performer distinction for top tier MERN stack implementation &amp;
+                  DSA mastery.</p>
+              </div>
+            </div>
+
+            <div class="honor-card motion-card">
+              <div class="honor-badge-icon gold">
+                <i data-lucide="trophy"></i>
+              </div>
+              <div class="honor-info">
+                <span class="honor-org">College Hackathon</span>
+                <h4 class="honor-title">Runner-Up in College Based Hackathon</h4>
+                <p class="honor-desc">Secured 2nd Rank for building an innovative full stack solution under strict timed
+                  competition constraints.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS ATTENDED SECTION -->
+    <section id="events" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;COMMUNITY &amp; CONFERENCES /&gt;</span>
+          <h2 class="section-title">Events <span class="gradient-text">Attended</span></h2>
+          <p class="section-description">Tech summits, hackathons, open-source meetups, and developer workshops I
+            actively participate in.</p>
+        </div>
+
+        <div class="events-grid">
+          <!-- Event 1: DevFest 2025 by GDG Lucknow -->
+          <div class="event-card motion-card">
+            <div class="event-header-badge">
+              <span class="event-type-pill"><i data-lucide="presentation"></i> DevFest 2025</span>
+              <span class="event-date">2025</span>
+            </div>
+            <h3 class="event-title">DevFest 2025</h3>
+            <p class="event-location"><i data-lucide="map-pin"></i> Google Developer Group (GDG) Lucknow</p>
+            <p class="event-desc">
+              Participated in GDG Lucknow’s flagship developer conference. Attended technical keynotes on Google Cloud,
+              AI/ML deployment models, Android ecosystems, and modern web developer toolings.
+            </p>
+            <div class="event-highlights">
+              <span>Organized By:</span> GDG Lucknow (Google Developer Groups).
+            </div>
+          </div>
+
+          <!-- Event 2: Build With AI by Lucknow AI Labs -->
+          <div class="event-card motion-card">
+            <div class="event-header-badge">
+              <span class="event-type-pill alt"><i data-lucide="sparkles"></i> Build With AI</span>
+              <span class="event-date">2025</span>
+            </div>
+            <h3 class="event-title">Build With AI Event</h3>
+            <p class="event-location"><i data-lucide="map-pin"></i> Lucknow AI Labs</p>
+            <p class="event-desc">
+              Engaged in hands-on developer workshops building Generative AI applications, LLM fine-tuning, prompt
+              engineering, and integrating AI microservices with modern full-stack web applications.
+            </p>
+            <div class="event-highlights">
+              <span>Organized By:</span> Lucknow AI Labs.
+            </div>
+          </div>
+
+          <!-- Event 3: Ideathon by KNIT Sultanpur -->
+          <div class="event-card motion-card">
+            <div class="event-header-badge">
+              <span class="event-type-pill"><i data-lucide="lightbulb"></i> Ideathon</span>
+              <span class="event-date">2025</span>
+            </div>
+            <h3 class="event-title">Ideathon 2025</h3>
+            <p class="event-location"><i data-lucide="map-pin"></i> KNIT Sultanpur (Kamla Nehru Institute of Technology)
+            </p>
+            <p class="event-desc">
+              Pitched innovative tech solutions and architectural prototypes addressing real-world problem statements,
+              collaborating with engineering peers and presenting before expert panels.
+            </p>
+            <div class="event-highlights">
+              <span>Organized By:</span> KNIT Sultanpur.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="section-padding alt-bg">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;VISUAL SNAPSHOTS /&gt;</span>
+          <h2 class="section-title">Developer <span class="gradient-text">Gallery</span></h2>
+          <p class="section-description">Snapshots of my development workstation, hackathon build sessions, and tech
+            community highlights.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <!-- Gallery Item 1: assets/gallery.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 1"
+            data-gallery-desc="Workstation setup and development environment." data-gallery-img="assets/gallery.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery.png" alt="Developer Snapshot 1" class="gallery-real-img gallery-img-top">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>GDG Lucknow DevFest 2025</h4>
+              <span>Dev Workspace Setup</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 2: assets/gallery1.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 2"
+            data-gallery-desc="Collaborative coding and algorithmic problem solving."
+            data-gallery-img="assets/gallery1.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery1.png" alt="Developer Snapshot 2" class="gallery-real-img">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>Best Performer Award</h4>
+              <span>Best Performer in MERN Training</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 3: assets/gallery2.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 3"
+            data-gallery-desc="Full stack architecture and engineering workflow."
+            data-gallery-img="assets/gallery2.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery2.png" alt="Developer Snapshot 3" class="gallery-real-img">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>Build with AI</h4>
+              <span>Lucknow AI Club</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 4: assets/gallery3.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 4"
+            data-gallery-desc="Hackathon sprint and tech community event." data-gallery-img="assets/gallery3.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery3.png" alt="Developer Snapshot 4" class="gallery-real-img">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>Research Paper certificate</h4>
+              <span>Indian Knowledge System (IKS), 2026</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 5: assets/gallery5.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 5"
+            data-gallery-desc="UI/UX design exploration and code review." data-gallery-img="assets/gallery5.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery5.png" alt="Developer Snapshot 5" class="gallery-real-img">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>Swags From MURF API</h4>
+              <span>Coding Challenge Completion</span>
+            </div>
+          </div>
+
+          <!-- Gallery Item 6: assets/gallery6.png -->
+          <div class="gallery-card motion-card" data-gallery-title="Developer Snapshot 6"
+            data-gallery-desc="Verified credentials and technical achievements." data-gallery-img="assets/gallery6.png">
+            <div class="gallery-visual">
+              <img src="assets/gallery6.png" alt="Developer Snapshot 6" class="gallery-real-img">
+              <div class="gallery-hover-overlay">
+                <i data-lucide="maximize-2"></i>
+                <span>Click to Expand</span>
+              </div>
+            </div>
+            <div class="gallery-caption">
+              <h4>Ideathon Participation</h4>
+              <span>KNIT Sultanpur</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT ME SECTION -->
+    <section id="contact" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">&lt;GET IN TOUCH /&gt;</span>
+          <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
+          <p class="section-description">Have a project idea, a position opening, or want to connect? Send me a message
+            below!</p>
+        </div>
+
+        <div class="contact-wrapper">
+          <!-- Contact Left Info Cards & Clock -->
+          <div class="contact-info">
+            <div class="contact-card motion-card">
+              <div class="contact-icon"><i data-lucide="mail"></i></div>
+              <div class="contact-details">
+                <span class="contact-label">Email Me</span>
+                <a href="mailto:anshusingh262005@gmail.com" class="contact-value">anshusingh262005@gmail.com</a>
+              </div>
+            </div>
+
+            <div class="contact-card motion-card">
+              <div class="contact-icon"><i data-lucide="map-pin"></i></div>
+              <div class="contact-details">
+                <span class="contact-label">Location</span>
+                <span class="contact-value">India (Available for Remote &amp; Onsite)</span>
+              </div>
+            </div>
+
+            <div class="contact-card motion-card">
+              <div class="contact-icon"><i data-lucide="clock"></i></div>
+              <div class="contact-details">
+                <span class="contact-label">Local Time</span>
+                <span id="live-time" class="contact-value font-mono">--:--:-- IST</span>
+              </div>
+            </div>
+
+            <!-- Bio Widget -->
+            <div class="dev-bio-widget motion-card">
+              <div class="bio-header">
+                <i data-lucide="sparkles" class="bio-icon"></i>
+                <span>Quick Response Commitment</span>
+              </div>
+              <p class="bio-text">
+                I typically respond within 12-24 hours. Feel free to reach out for full-time software developer roles,
+                freelance full stack projects, or technical consulting.
+              </p>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-container motion-card">
+            <form id="contact-form" class="contact-form">
+              <div class="form-group">
+                <label for="name" class="form-label">Your Name</label>
+                <div class="input-wrapper">
+                  <i data-lucide="user" class="input-icon"></i>
+                  <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Alex Johnson" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Your Email</label>
+                <div class="input-wrapper">
+                  <i data-lucide="mail" class="input-icon"></i>
+                  <input type="email" id="email" name="email" class="form-input" placeholder="e.g. alex@company.com"
+                    required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="subject" class="form-label">Subject</label>
+                <div class="input-wrapper">
+                  <i data-lucide="message-square" class="input-icon"></i>
+                  <input type="text" id="subject" name="subject" class="form-input"
+                    placeholder="e.g. Project Opportunity / Collaboration" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message</label>
+                <div class="input-wrapper textarea-wrapper">
+                  <i data-lucide="file-text" class="input-icon"></i>
+                  <textarea id="message" name="message" class="form-input" rows="5"
+                    placeholder="Write your project details or message here..." required></textarea>
+                </div>
+              </div>
+
+              <button type="submit" id="submit-btn" class="btn btn-primary btn-block">
+                <span class="btn-text">Send Message</span>
+                <i data-lucide="send" class="btn-icon"></i>
+              </button>
+            </form>
+
+            <!-- Success Toast Notification -->
+            <div id="toast" class="toast hidden">
+              <i data-lucide="check-circle-2" class="toast-icon"></i>
+              <span id="toast-msg">Thank you! Your message has been sent successfully.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="#hero" class="footer-logo">
+          <span class="logo-bracket">&lt;</span>Anshika<span class="logo-accent">.Dev</span><span
+            class="logo-bracket">/&gt;</span>
+        </a>
+        <p>&copy; <span id="current-year">2026</span> Anshika Singh. Crafted with passion &amp; high performance code.
+        </p>
+      </div>
+
+
+      <a href="#hero" class="back-to-top" aria-label="Back to Top" title="Back to top">
+        <i data-lucide="arrow-up"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- MODAL LIGHTBOX FOR PROJECT DETAILS & GALLERY -->
+  <div id="modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-card">
+      <button id="modal-close" class="modal-close-btn" aria-label="Close modal">
+        <i data-lucide="x"></i>
+      </button>
+      <div id="modal-body" class="modal-body">
+        <!-- Dynamic Content injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Script -->
+  <script src="script.js"></script>
+</body>
+
+</html>

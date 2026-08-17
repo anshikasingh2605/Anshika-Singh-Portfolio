@@ -339,15 +339,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dynamic Multi-Platform Questions Calculator Engine
   function calculateTotalQuestions() {
-    const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '85', 10);
-    const gfgVal = parseInt(document.getElementById('val-gfg')?.textContent || '40', 10);
-    const hackerrankVal = parseInt(document.getElementById('val-hackerrank')?.textContent || '30', 10);
+    const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '121', 10);
+    const gfgVal = parseInt(document.getElementById('val-gfg')?.textContent || '55', 10);
+    const hackerrankVal = parseInt(document.getElementById('val-hackerrank')?.textContent || '21', 10);
 
     const grandTotal = leetcodeVal + gfgVal + hackerrankVal;
     const grandTotalElement = document.getElementById('grand-total-num');
 
     if (grandTotalElement) {
       grandTotalElement.textContent = `${grandTotal}+`;
+    }
+
+    const formulaEl = document.getElementById('formula-code');
+    if (formulaEl) {
+      formulaEl.innerHTML = `${leetcodeVal} (LeetCode) + ${gfgVal} (GFG) + ${hackerrankVal} (HackerRank) = <strong>${grandTotal} Total Solved</strong>`;
     }
   }
 
@@ -362,71 +367,88 @@ document.addEventListener('DOMContentLoaded', () => {
     return clean;
   }
 
-  // Automatic Real-Time LeetCode API Stats Fetcher
+  // 1. Automatic Real-Time LeetCode API Stats Fetcher
   async function fetchLeetCodeStats(profileInput) {
-    const username = parseUsername(profileInput);
-    if (!username) return;
-
+    const username = parseUsername(profileInput) || 'anshika_singh580';
     const syncStatus = document.getElementById('leetcode-sync-status');
     if (syncStatus) {
       syncStatus.innerHTML = `<span class="live-dot" style="background:#ffa116; box-shadow:0 0 8px #ffa116;"></span> Syncing...`;
     }
 
     try {
-      // Primary CORS-friendly LeetCode Stats API endpoint
       let data = null;
+      let profileData = null;
 
+      // Endpoint 1: Alfa LeetCode API (Solved stats)
       try {
         const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/solved`);
         if (response.ok) {
           data = await response.json();
         }
       } catch (e) {
-        console.log('Primary API failed, trying fallback...');
+        console.log('LeetCode primary endpoint failed, trying fallback...');
       }
 
+      // Endpoint 2: Alfa LeetCode Profile API (Rank & metadata)
+      try {
+        const profileRes = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
+        if (profileRes.ok) {
+          profileData = await profileRes.json();
+        }
+      } catch (e) {
+        console.log('LeetCode profile endpoint note:', e);
+      }
+
+      // Fallback 1: LeetCode Stats API Heroku App
       if (!data || data.solvedProblem === undefined) {
-        const fallbackRes = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
-        if (fallbackRes.ok) {
-          const fbData = await fallbackRes.json();
-          if (fbData.totalSolved !== undefined) {
-            data = {
-              solvedProblem: fbData.totalSolved,
-              easySolved: fbData.easySolved,
-              mediumSolved: fbData.mediumSolved,
-              hardSolved: fbData.hardSolved,
-              acceptanceRate: fbData.acceptanceRate,
-              totalSubmissions: fbData.totalSubmissions
-            };
+        try {
+          const fallbackRes = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
+          if (fallbackRes.ok) {
+            const fbData = await fallbackRes.json();
+            if (fbData.totalSolved !== undefined) {
+              data = {
+                solvedProblem: fbData.totalSolved,
+                easySolved: fbData.easySolved,
+                mediumSolved: fbData.mediumSolved,
+                hardSolved: fbData.hardSolved,
+                ranking: fbData.ranking,
+                totalSubmissions: fbData.totalSubmissions
+              };
+            }
           }
+        } catch (e) {
+          console.log('LeetCode fallback 1 note:', e);
         }
       }
 
       if (data && data.solvedProblem !== undefined) {
-        const total = data.solvedProblem || 119;
-        const easy = data.easySolved || 66;
-        const medium = data.mediumSolved || 47;
+        const total = data.solvedProblem || 121;
+        const easy = data.easySolved || 67;
+        const medium = data.mediumSolved || 48;
         const hard = data.hardSolved || 6;
 
-        let totalSubmissions = 212;
-        let acSubmissions = 161;
+        let totalSubmissions = 216;
         if (data.totalSubmissionNum && data.totalSubmissionNum[0]) {
-          totalSubmissions = data.totalSubmissionNum[0].submissions || 212;
-        }
-        if (data.acSubmissionNum && data.acSubmissionNum[0]) {
-          acSubmissions = data.acSubmissionNum[0].submissions || 161;
+          totalSubmissions = data.totalSubmissionNum[0].submissions || 216;
+        } else if (data.totalSubmissions) {
+          totalSubmissions = data.totalSubmissions;
         }
 
-        const acceptance = data.acceptanceRate ? `${data.acceptanceRate}%` : `${((acSubmissions / (totalSubmissions || 1)) * 100).toFixed(1)}%`;
+        const totalEl = document.getElementById('leetcode-total');
+        if (totalEl) totalEl.textContent = total;
 
-        document.getElementById('leetcode-total').textContent = total;
-        document.getElementById('leetcode-easy').textContent = `${easy} / 800`;
-        document.getElementById('leetcode-medium').textContent = `${medium} / 1600`;
-        document.getElementById('leetcode-hard').textContent = `${hard} / 700`;
+        const easyEl = document.getElementById('leetcode-easy');
+        if (easyEl) easyEl.textContent = `${easy} / 800`;
+
+        const mediumEl = document.getElementById('leetcode-medium');
+        if (mediumEl) mediumEl.textContent = `${medium} / 1600`;
+
+        const hardEl = document.getElementById('leetcode-hard');
+        if (hardEl) hardEl.textContent = `${hard} / 700`;
 
         const rankValEl = document.getElementById('leetcode-rank-val');
         if (rankValEl) {
-          const rankNum = data.ranking ? `#${data.ranking.toLocaleString()}` : '#1,426,458';
+          const rankNum = (profileData && profileData.ranking) ? `#${profileData.ranking.toLocaleString()}` : (data.ranking ? `#${data.ranking.toLocaleString()}` : '#1,406,582');
           rankValEl.textContent = rankNum;
         }
 
@@ -435,7 +457,8 @@ document.addEventListener('DOMContentLoaded', () => {
           subEl.textContent = `${totalSubmissions} Total`;
         }
 
-        document.getElementById('val-leetcode').textContent = total;
+        const valLc = document.getElementById('val-leetcode');
+        if (valLc) valLc.textContent = total;
 
         const barEasy = document.getElementById('bar-easy');
         const barMedium = document.getElementById('bar-medium');
@@ -453,104 +476,146 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         calculateTotalQuestions();
-
-        const formulaEl = document.getElementById('formula-code');
-        if (formulaEl) {
-          const gfgVal = parseInt(document.getElementById('val-gfg')?.textContent || '40', 10);
-          const hackerrankVal = parseInt(document.getElementById('val-hackerrank')?.textContent || '30', 10);
-          const grandTotal = total + gfgVal + hackerrankVal;
-          formulaEl.innerHTML = `${total} (LeetCode) + ${gfgVal} (GFG) + ${hackerrankVal} (HackerRank) = <strong>${grandTotal} Total Solved</strong>`;
-        }
       }
     } catch (err) {
-      console.log('LeetCode live API sync note: using synced profile baseline', err);
+      console.log('LeetCode live sync note:', err);
     } finally {
       if (syncStatus) {
-        syncStatus.innerHTML = `<span class="live-dot"></span> Live Sync`;
+        syncStatus.innerHTML = `<span class="live-dot"></span> Live Synced`;
       }
     }
   }
 
-  // Automatic Real-Time GeeksforGeeks API / Profile Fetcher
+  // 2. Automatic Real-Time GeeksforGeeks API / Profile Fetcher
   async function fetchGFGStats(profileInput) {
-    const handle = parseUsername(profileInput);
+    const handle = parseUsername(profileInput) || 'anshusingmh62';
     if (!handle) return;
 
     try {
-      const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.geeksforgeeks.org/profile/${handle}`)}`);
-      if (res.ok) {
-        const html = await res.text();
-        const solvedMatch = html.match(/"total_problems_solved":\s*(\d+)/) || html.match(/Problems Solved[:\s\w]*(\d+)/i);
-        
-        if (solvedMatch) {
-          const solved = parseInt(solvedMatch[1], 10);
-          const gfgVal = document.getElementById('val-gfg');
-          if (gfgVal && !isNaN(solved)) {
-            gfgVal.textContent = solved;
-            calculateTotalQuestions();
+      let solvedCount = null;
 
-            const formulaEl = document.getElementById('formula-code');
-            if (formulaEl) {
-              const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '119', 10);
-              const hackerrankVal = parseInt(document.getElementById('val-hackerrank')?.textContent || '30', 10);
-              const grandTotal = leetcodeVal + solved + hackerrankVal;
-              formulaEl.innerHTML = `${leetcodeVal} (LeetCode) + ${solved} (GFG) + ${hackerrankVal} (HackerRank) = <strong>${grandTotal} Total Solved</strong>`;
+      // Endpoint 1: Dedicated GFG Stats Card API (JSON)
+      try {
+        const res = await fetch(`https://gfgstatscard.vercel.app/${handle}?raw=true`);
+        if (res.ok) {
+          const gfgData = await res.json();
+          if (gfgData) {
+            const calculatedTotal = (gfgData.Basic || 0) + (gfgData.Easy || 0) + (gfgData.Medium || 0) + (gfgData.Hard || 0) + (gfgData.School || 0);
+            solvedCount = gfgData.total_problems_solved || calculatedTotal || 55;
+          }
+        }
+      } catch (e) {
+        console.log('GFG primary API note:', e);
+      }
+
+      // Fallback 1: Scrape GFG profile page HTML via AllOrigins CORS Proxy
+      if (!solvedCount) {
+        try {
+          const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.geeksforgeeks.org/profile/${handle}`)}`);
+          if (proxyRes.ok) {
+            const html = await proxyRes.text();
+            const match = html.match(/"total_problems_solved":\s*(\d+)/) || html.match(/Problems Solved[:\s\w]*(\d+)/i);
+            if (match) {
+              solvedCount = parseInt(match[1], 10);
             }
           }
+        } catch (e) {
+          console.log('GFG HTML fallback note:', e);
+        }
+      }
+
+      if (solvedCount && !isNaN(solvedCount) && solvedCount > 0) {
+        const gfgVal = document.getElementById('val-gfg');
+        if (gfgVal) {
+          gfgVal.textContent = solvedCount;
+          calculateTotalQuestions();
         }
       }
     } catch (e) {
-      console.log('GFG live fetch baseline used:', e);
+      console.log('GFG live fetch note:', e);
     }
   }
 
-  // Automatic Real-Time HackerRank API Fetcher
+  // 3. Automatic Real-Time HackerRank API Fetcher
   async function fetchHackerRankStats(profileInput) {
-    const handle = parseUsername(profileInput);
+    const handle = parseUsername(profileInput) || 'anshusingh262005';
     if (!handle) return;
 
     try {
-      const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.hackerrank.com/rest/hackers/${handle}/badges`)}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.models && Array.isArray(data.models)) {
-          let totalSolved = 0;
-          data.models.forEach(b => {
-            totalSolved += (b.solved || 0);
-          });
+      let totalSolved = null;
 
-          const hrVal = document.getElementById('val-hackerrank');
-          if (hrVal && totalSolved > 0) {
-            hrVal.textContent = totalSolved;
-            calculateTotalQuestions();
+      // Direct HackerRank Badges API endpoint
+      try {
+        const res = await fetch(`https://www.hackerrank.com/rest/hackers/${handle}/badges`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.models && Array.isArray(data.models)) {
+            let count = 0;
+            data.models.forEach((b) => {
+              count += (b.solved || 0);
+            });
+            if (count > 0) totalSolved = count;
+          }
+        }
+      } catch (e) {
+        console.log('HackerRank direct endpoint note:', e);
+      }
 
-            const formulaEl = document.getElementById('formula-code');
-            if (formulaEl) {
-              const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '119', 10);
-              const gfgVal = parseInt(document.getElementById('val-gfg')?.textContent || '55', 10);
-              const grandTotal = leetcodeVal + gfgVal + totalSolved;
-              formulaEl.innerHTML = `${leetcodeVal} (LeetCode) + ${gfgVal} (GFG) + ${totalSolved} (HackerRank) = <strong>${grandTotal} Total Solved</strong>`;
+      // Fallback: AllOrigins CORS Proxy for HackerRank Badges API
+      if (!totalSolved) {
+        try {
+          const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.hackerrank.com/rest/hackers/${handle}/badges`)}`);
+          if (proxyRes.ok) {
+            const data = await proxyRes.json();
+            if (data && data.models && Array.isArray(data.models)) {
+              let count = 0;
+              data.models.forEach((b) => {
+                count += (b.solved || 0);
+              });
+              if (count > 0) totalSolved = count;
             }
           }
+        } catch (e) {
+          console.log('HackerRank fallback note:', e);
+        }
+      }
+
+      if (totalSolved && totalSolved > 0) {
+        const hrVal = document.getElementById('val-hackerrank');
+        if (hrVal) {
+          hrVal.textContent = totalSolved;
+          calculateTotalQuestions();
         }
       }
     } catch (e) {
-      console.log('HackerRank live fetch baseline used:', e);
+      console.log('HackerRank live fetch note:', e);
     }
   }
 
-  // Auto-fetch using DEVELOPER_PROFILES configuration defined at top of script.js
-  if (typeof DEVELOPER_PROFILES !== 'undefined') {
-    if (DEVELOPER_PROFILES.leetcode) {
-      fetchLeetCodeStats(DEVELOPER_PROFILES.leetcode);
-    }
-    if (DEVELOPER_PROFILES.geeksforgeeks) {
-      fetchGFGStats(DEVELOPER_PROFILES.geeksforgeeks);
-    }
-    if (DEVELOPER_PROFILES.hackerrank) {
-      fetchHackerRankStats(DEVELOPER_PROFILES.hackerrank);
+  // Trigger Live Sync for all platforms
+  function syncAllPlatforms() {
+    if (typeof DEVELOPER_PROFILES !== 'undefined') {
+      fetchLeetCodeStats(DEVELOPER_PROFILES.leetcode || 'anshika_singh580');
+      fetchGFGStats(DEVELOPER_PROFILES.geeksforgeeks || 'anshusingmh62');
+      fetchHackerRankStats(DEVELOPER_PROFILES.hackerrank || 'anshusingh262005');
+    } else {
+      fetchLeetCodeStats('anshika_singh580');
+      fetchGFGStats('anshusingmh62');
+      fetchHackerRankStats('anshusingh262005');
     }
   }
+
+  // Auto-sync on page load
+  syncAllPlatforms();
+
+  // Add click listener to live status elements to allow manual re-sync
+  document.querySelectorAll('.live-status').forEach((statusEl) => {
+    statusEl.style.cursor = 'pointer';
+    statusEl.title = 'Click to re-sync live statistics';
+    statusEl.addEventListener('click', () => {
+      syncAllPlatforms();
+    });
+  });
 
   document.querySelectorAll('.view-details-btn').forEach((btn) => {
     btn.addEventListener('click', () => {

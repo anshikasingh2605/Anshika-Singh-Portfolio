@@ -782,19 +782,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mobile Menu Drawer Toggle
+  // Mobile Menu Drawer Toggle Logic
   const mobileToggle = document.getElementById('mobile-toggle');
   const navLinksMenu = document.getElementById('nav-links');
+  const navbarHeader = document.getElementById('navbar');
+
+  function closeMobileMenu() {
+    if (navLinksMenu && navLinksMenu.classList.contains('active')) {
+      navLinksMenu.classList.remove('active');
+      if (mobileToggle) {
+        mobileToggle.classList.remove('is-active');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.setAttribute('aria-label', 'Open Navigation Menu');
+      }
+    }
+  }
+
+  function toggleMobileMenu() {
+    if (navLinksMenu && mobileToggle) {
+      const isActive = navLinksMenu.classList.toggle('active');
+      mobileToggle.classList.toggle('is-active', isActive);
+      mobileToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+      mobileToggle.setAttribute('aria-label', isActive ? 'Close Navigation Menu' : 'Open Navigation Menu');
+    }
+  }
 
   if (mobileToggle && navLinksMenu) {
-    mobileToggle.addEventListener('click', () => {
-      navLinksMenu.classList.toggle('active');
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMobileMenu();
     });
 
     navLinks.forEach((link) => {
       link.addEventListener('click', () => {
-        navLinksMenu.classList.remove('active');
+        closeMobileMenu();
       });
+    });
+
+    // Close menu when clicking anywhere outside the navbar
+    document.addEventListener('click', (e) => {
+      if (navbarHeader && !navbarHeader.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close menu on Escape key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMobileMenu();
+      }
+    });
+
+    // Reset mobile menu on window resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1024) {
+        closeMobileMenu();
+      }
     });
   }
 });

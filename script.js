@@ -18,17 +18,7 @@ const DEVELOPER_PROFILES = {
 
   // HackerRank username OR solved count
   hackerrank: 'https://www.hackerrank.com/profile/anshusingh262005',
-  hackerrankSolvedCount: 30,
-
-  // LinkedIn Profile & Creator Analytics Config
-  linkedin: 'https://www.linkedin.com/in/anshika-singh-9838an26',
-  linkedinStats: {
-    followers: '1.25K',
-    posts: 35,
-    impressions: '15.4K',
-    profileViews: 480,
-    topPostLikes: 140
-  }
+  hackerrankSolvedCount: 30
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -466,25 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hrVal) hrVal.textContent = stats.hackerrank.total;
     }
 
-    if (stats.linkedin) {
-      const followers = stats.linkedin.followers || '1.25K';
-      const posts = stats.linkedin.posts || 35;
-      const impressions = stats.linkedin.impressions || '15.4K';
-      const views = stats.linkedin.profileViews || 480;
-
-      const folEl = document.getElementById('linkedin-followers');
-      if (folEl) folEl.textContent = typeof followers === 'number' ? (followers >= 1000 ? (followers / 1000).toFixed(2) + 'K' : followers) : followers;
-
-      const postsEl = document.getElementById('linkedin-posts');
-      if (postsEl) postsEl.textContent = `${posts} Published`;
-
-      const impEl = document.getElementById('linkedin-impressions');
-      if (impEl) impEl.textContent = typeof impressions === 'number' ? (impressions >= 1000 ? (impressions / 1000).toFixed(1) + 'K Total' : impressions + ' Total') : `${impressions} Total`;
-
-      const viewsEl = document.getElementById('linkedin-views');
-      if (viewsEl) viewsEl.textContent = `${views} Views`;
-    }
-
     calculateTotalQuestions();
   }
 
@@ -723,48 +694,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 4. Automatic LinkedIn Creator Analytics Fetcher (Vercel Serverless API + Local Fallback)
-  async function fetchLinkedInStats() {
-    const syncStatus = document.getElementById('linkedin-sync-status');
-    if (syncStatus) {
-      syncStatus.innerHTML = `<span class="live-dot" style="background:#0a66c2; box-shadow:0 0 8px #0a66c2;"></span> Syncing...`;
-    }
-
-    let linkedinResult = null;
-
-    try {
-      // Try Vercel Serverless endpoint /api/linkedin-stats
-      const res = await fetch('/api/linkedin-stats');
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.success) {
-          linkedinResult = {
-            followers: data.followers || '1.25K',
-            posts: data.posts || 35,
-            impressions: data.impressions || '15.4K',
-            profileViews: data.profileViews || 480
-          };
-        }
-      }
-    } catch (e) {
-      console.log('LinkedIn Serverless API note:', e);
-    }
-
-    if (!linkedinResult && typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.linkedinStats) {
-      linkedinResult = DEVELOPER_PROFILES.linkedinStats;
-    }
-
-    if (linkedinResult) {
-      setCachedStats({ linkedin: linkedinResult });
-      const currentCache = getCachedStats() || {};
-      applyStatsToDOM({ ...currentCache, linkedin: linkedinResult });
-    }
-
-    if (syncStatus) {
-      syncStatus.innerHTML = `<span class="live-dot" style="background:#0a66c2; box-shadow:0 0 8px #0a66c2;"></span> Live Synced`;
-    }
-  }
-
   // Trigger Live Sync for all platforms
   function syncAllPlatforms() {
     const leetcodeHandle = (typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.leetcode) ? DEVELOPER_PROFILES.leetcode : 'anshika_singh580';
@@ -774,7 +703,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchLeetCodeStats(leetcodeHandle);
     fetchGFGStats(gfgHandle);
     fetchHackerRankStats(hrHandle);
-    fetchLinkedInStats();
   }
 
   // 1. Immediate Hydration from Cache on Load (Zero Flicker)
@@ -785,8 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyStatsToDOM({
       leetcode: { total: 127, easy: 70, medium: 50, hard: 7, ranking: '#1,406,582', submissions: 232 },
       gfg: { total: 55 },
-      hackerrank: { total: 21 },
-      linkedin: { followers: '1.25K', posts: 35, impressions: '15.4K', profileViews: 480 }
+      hackerrank: { total: 21 }
     });
   }
 

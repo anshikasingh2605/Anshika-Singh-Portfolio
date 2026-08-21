@@ -1,8 +1,0 @@
-[build]
-  publish = "."
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/linkedin-stats"
-  to = "/.netlify/functions/linkedin-stats"
-  status = 200

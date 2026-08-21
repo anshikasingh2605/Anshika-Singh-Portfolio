@@ -1654,7 +1654,7 @@ button, input, textarea {
 /* ACHIEVEMENTS & LIVE CODING ANALYTICS */
 .achievements-analytics-grid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 28px;
   align-items: stretch;
 }
@@ -1695,6 +1695,7 @@ button, input, textarea {
 }
 
 .leetcode-badge { color: #ffa116; }
+.linkedin-badge { color: #0a66c2; }
 .multi-badge { color: var(--accent-cyan); }
 
 .live-status {

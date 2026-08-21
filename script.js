@@ -18,7 +18,17 @@ const DEVELOPER_PROFILES = {
 
   // HackerRank username OR solved count
   hackerrank: 'https://www.hackerrank.com/profile/anshusingh262005',
-  hackerrankSolvedCount: 30
+  hackerrankSolvedCount: 30,
+
+  // LinkedIn Profile & Creator Analytics Config
+  linkedin: 'https://www.linkedin.com/in/anshika-singh-9838an26',
+  linkedinStats: {
+    followers: '1.25K',
+    posts: 35,
+    impressions: '15.4K',
+    profileViews: 480,
+    topPostLikes: 140
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -339,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dynamic Multi-Platform Questions Calculator Engine
   function calculateTotalQuestions() {
-    const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '121', 10);
+    const leetcodeVal = parseInt(document.getElementById('val-leetcode')?.textContent || '127', 10);
     const gfgVal = parseInt(document.getElementById('val-gfg')?.textContent || '55', 10);
     const hackerrankVal = parseInt(document.getElementById('val-hackerrank')?.textContent || '21', 10);
 
@@ -367,7 +377,118 @@ document.addEventListener('DOMContentLoaded', () => {
     return clean;
   }
 
-  // 1. Automatic Real-Time LeetCode API Stats Fetcher
+  // --------------------------------------------------------------------------
+  // STATS PERSISTENCE & LOCAL STORAGE CACHE ENGINE
+  // --------------------------------------------------------------------------
+  const CACHE_KEY = 'anshika_coding_stats_v2';
+
+  function getCachedStats() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      return cached ? JSON.parse(cached) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setCachedStats(patch) {
+    try {
+      const existing = getCachedStats() || {
+        leetcode: { total: 127, easy: 70, medium: 50, hard: 7, ranking: '#1,406,582', submissions: 232 },
+        gfg: { total: 55 },
+        hackerrank: { total: 21 }
+      };
+      const updated = {
+        ...existing,
+        ...patch,
+        updatedAt: Date.now()
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.log('Cache save note:', e);
+    }
+  }
+
+  function applyStatsToDOM(stats) {
+    if (!stats) return;
+    if (stats.leetcode) {
+      const total = stats.leetcode.total || 127;
+      const easy = stats.leetcode.easy || 70;
+      const medium = stats.leetcode.medium || 50;
+      const hard = stats.leetcode.hard || 7;
+      const ranking = stats.leetcode.ranking || '#1,406,582';
+      const subs = stats.leetcode.submissions || 232;
+
+      const totalEl = document.getElementById('leetcode-total');
+      if (totalEl) totalEl.textContent = total;
+
+      const easyEl = document.getElementById('leetcode-easy');
+      if (easyEl) easyEl.textContent = `${easy} / 800`;
+
+      const mediumEl = document.getElementById('leetcode-medium');
+      if (mediumEl) mediumEl.textContent = `${medium} / 1600`;
+
+      const hardEl = document.getElementById('leetcode-hard');
+      if (hardEl) hardEl.textContent = `${hard} / 700`;
+
+      const rankValEl = document.getElementById('leetcode-rank-val');
+      if (rankValEl) rankValEl.textContent = typeof ranking === 'number' ? `#${ranking.toLocaleString()}` : ranking;
+
+      const subEl = document.getElementById('leetcode-submissions');
+      if (subEl) subEl.textContent = `${subs} Total`;
+
+      const valLc = document.getElementById('val-leetcode');
+      if (valLc) valLc.textContent = total;
+
+      const barEasy = document.getElementById('bar-easy');
+      const barMedium = document.getElementById('bar-medium');
+      const barHard = document.getElementById('bar-hard');
+
+      if (barEasy) barEasy.style.width = `${Math.min((easy / 150) * 100, 100)}%`;
+      if (barMedium) barMedium.style.width = `${Math.min((medium / 100) * 100, 100)}%`;
+      if (barHard) barHard.style.width = `${Math.min((hard / 50) * 100, 100)}%`;
+
+      const dialFill = document.getElementById('leetcode-dial-fill');
+      if (dialFill) {
+        const maxCirc = 264;
+        const pct = Math.min(total / 200, 1);
+        dialFill.style.strokeDashoffset = maxCirc * (1 - pct * 0.75);
+      }
+    }
+
+    if (stats.gfg && stats.gfg.total) {
+      const gfgVal = document.getElementById('val-gfg');
+      if (gfgVal) gfgVal.textContent = stats.gfg.total;
+    }
+
+    if (stats.hackerrank && stats.hackerrank.total) {
+      const hrVal = document.getElementById('val-hackerrank');
+      if (hrVal) hrVal.textContent = stats.hackerrank.total;
+    }
+
+    if (stats.linkedin) {
+      const followers = stats.linkedin.followers || '1.25K';
+      const posts = stats.linkedin.posts || 35;
+      const impressions = stats.linkedin.impressions || '15.4K';
+      const views = stats.linkedin.profileViews || 480;
+
+      const folEl = document.getElementById('linkedin-followers');
+      if (folEl) folEl.textContent = typeof followers === 'number' ? (followers >= 1000 ? (followers / 1000).toFixed(2) + 'K' : followers) : followers;
+
+      const postsEl = document.getElementById('linkedin-posts');
+      if (postsEl) postsEl.textContent = `${posts} Published`;
+
+      const impEl = document.getElementById('linkedin-impressions');
+      if (impEl) impEl.textContent = typeof impressions === 'number' ? (impressions >= 1000 ? (impressions / 1000).toFixed(1) + 'K Total' : impressions + ' Total') : `${impressions} Total`;
+
+      const viewsEl = document.getElementById('linkedin-views');
+      if (viewsEl) viewsEl.textContent = `${views} Views`;
+    }
+
+    calculateTotalQuestions();
+  }
+
+  // 1. Automatic Real-Time LeetCode API Stats Fetcher with Multi-Tier Fallbacks
   async function fetchLeetCodeStats(profileInput) {
     const username = parseUsername(profileInput) || 'anshika_singh580';
     const syncStatus = document.getElementById('leetcode-sync-status');
@@ -375,176 +496,209 @@ document.addEventListener('DOMContentLoaded', () => {
       syncStatus.innerHTML = `<span class="live-dot" style="background:#ffa116; box-shadow:0 0 8px #ffa116;"></span> Syncing...`;
     }
 
+    let result = null;
+
+    // TIER 1: Vercel LeetCode API (Fastest & Most Reliable)
     try {
-      let data = null;
-      let profileData = null;
-
-      // Endpoint 1: Alfa LeetCode API (Solved stats)
-      try {
-        const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/solved`);
-        if (response.ok) {
-          data = await response.json();
-        }
-      } catch (e) {
-        console.log('LeetCode primary endpoint failed, trying fallback...');
-      }
-
-      // Endpoint 2: Alfa LeetCode Profile API (Rank & metadata)
-      try {
-        const profileRes = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
-        if (profileRes.ok) {
-          profileData = await profileRes.json();
-        }
-      } catch (e) {
-        console.log('LeetCode profile endpoint note:', e);
-      }
-
-      // Fallback 1: LeetCode Stats API Heroku App
-      if (!data || data.solvedProblem === undefined) {
-        try {
-          const fallbackRes = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
-          if (fallbackRes.ok) {
-            const fbData = await fallbackRes.json();
-            if (fbData.totalSolved !== undefined) {
-              data = {
-                solvedProblem: fbData.totalSolved,
-                easySolved: fbData.easySolved,
-                mediumSolved: fbData.mediumSolved,
-                hardSolved: fbData.hardSolved,
-                ranking: fbData.ranking,
-                totalSubmissions: fbData.totalSubmissions
-              };
-            }
+      const res = await fetch(`https://leetcode-stats-api.vercel.app/${username}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.totalSolved !== undefined && data.totalSolved > 0) {
+          let totalSubmissions = 232;
+          if (data.totalSubmissions && Array.isArray(data.totalSubmissions)) {
+            const allSub = data.totalSubmissions.find(s => s.difficulty === 'All');
+            if (allSub && allSub.submissions) totalSubmissions = allSub.submissions;
+          } else if (typeof data.totalSubmissions === 'number') {
+            totalSubmissions = data.totalSubmissions;
           }
-        } catch (e) {
-          console.log('LeetCode fallback 1 note:', e);
+
+          result = {
+            total: data.totalSolved,
+            easy: data.easySolved || 70,
+            medium: data.mediumSolved || 50,
+            hard: data.hardSolved || 7,
+            ranking: data.ranking ? `#${data.ranking.toLocaleString()}` : '#1,406,582',
+            submissions: totalSubmissions
+          };
         }
       }
+    } catch (e) {
+      console.log('LeetCode Tier 1 Vercel API note:', e);
+    }
 
-      if (data && data.solvedProblem !== undefined) {
-        const total = data.solvedProblem || 121;
-        const easy = data.easySolved || 67;
-        const medium = data.mediumSolved || 48;
-        const hard = data.hardSolved || 6;
+    // TIER 2: Alfa LeetCode API (Render)
+    if (!result) {
+      try {
+        const res = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/solved`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.solvedProblem !== undefined && data.solvedProblem > 0) {
+            let rank = '#1,406,582';
+            try {
+              const profileRes = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
+              if (profileRes.ok) {
+                const pData = await profileRes.json();
+                if (pData && pData.ranking) rank = `#${pData.ranking.toLocaleString()}`;
+              }
+            } catch (pErr) {}
 
-        let totalSubmissions = 216;
-        if (data.totalSubmissionNum && data.totalSubmissionNum[0]) {
-          totalSubmissions = data.totalSubmissionNum[0].submissions || 216;
-        } else if (data.totalSubmissions) {
-          totalSubmissions = data.totalSubmissions;
+            result = {
+              total: data.solvedProblem,
+              easy: data.easySolved || 70,
+              medium: data.mediumSolved || 50,
+              hard: data.hardSolved || 7,
+              ranking: rank,
+              submissions: (data.totalSubmissionNum && data.totalSubmissionNum[0]) ? data.totalSubmissionNum[0].submissions : 232
+            };
+          }
         }
-
-        const totalEl = document.getElementById('leetcode-total');
-        if (totalEl) totalEl.textContent = total;
-
-        const easyEl = document.getElementById('leetcode-easy');
-        if (easyEl) easyEl.textContent = `${easy} / 800`;
-
-        const mediumEl = document.getElementById('leetcode-medium');
-        if (mediumEl) mediumEl.textContent = `${medium} / 1600`;
-
-        const hardEl = document.getElementById('leetcode-hard');
-        if (hardEl) hardEl.textContent = `${hard} / 700`;
-
-        const rankValEl = document.getElementById('leetcode-rank-val');
-        if (rankValEl) {
-          const rankNum = (profileData && profileData.ranking) ? `#${profileData.ranking.toLocaleString()}` : (data.ranking ? `#${data.ranking.toLocaleString()}` : '#1,406,582');
-          rankValEl.textContent = rankNum;
-        }
-
-        const subEl = document.getElementById('leetcode-submissions');
-        if (subEl) {
-          subEl.textContent = `${totalSubmissions} Total`;
-        }
-
-        const valLc = document.getElementById('val-leetcode');
-        if (valLc) valLc.textContent = total;
-
-        const barEasy = document.getElementById('bar-easy');
-        const barMedium = document.getElementById('bar-medium');
-        const barHard = document.getElementById('bar-hard');
-
-        if (barEasy) barEasy.style.width = `${Math.min((easy / 150) * 100, 100)}%`;
-        if (barMedium) barMedium.style.width = `${Math.min((medium / 100) * 100, 100)}%`;
-        if (barHard) barHard.style.width = `${Math.min((hard / 50) * 100, 100)}%`;
-
-        const dialFill = document.getElementById('leetcode-dial-fill');
-        if (dialFill) {
-          const maxCirc = 264;
-          const pct = Math.min(total / 200, 1);
-          dialFill.style.strokeDashoffset = maxCirc * (1 - pct * 0.75);
-        }
-
-        calculateTotalQuestions();
+      } catch (e) {
+        console.log('LeetCode Tier 2 Alfa API note:', e);
       }
-    } catch (err) {
-      console.log('LeetCode live sync note:', err);
-    } finally {
-      if (syncStatus) {
-        syncStatus.innerHTML = `<span class="live-dot"></span> Live Synced`;
+    }
+
+    // TIER 3: CORS Proxy to LeetCode GraphQL
+    if (!result) {
+      try {
+        const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://leetcode.com/graphql')}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `query getUserProfile($username: String!) {
+              matchedUser(username: $username) {
+                submitStats { acSubmissionNum { difficulty count } totalSubmissionNum { difficulty submissions } }
+                profile { ranking }
+              }
+            }`,
+            variables: { username }
+          })
+        });
+        if (proxyRes.ok) {
+          const gqlData = await proxyRes.json();
+          const user = gqlData?.data?.matchedUser;
+          if (user && user.submitStats && user.submitStats.acSubmissionNum) {
+            const acs = user.submitStats.acSubmissionNum;
+            const total = acs.find(d => d.difficulty === 'All')?.count || 127;
+            const easy = acs.find(d => d.difficulty === 'Easy')?.count || 70;
+            const medium = acs.find(d => d.difficulty === 'Medium')?.count || 50;
+            const hard = acs.find(d => d.difficulty === 'Hard')?.count || 7;
+            const rank = user.profile?.ranking ? `#${user.profile.ranking.toLocaleString()}` : '#1,406,582';
+            const subs = user.submitStats.totalSubmissionNum?.find(d => d.difficulty === 'All')?.submissions || 232;
+
+            result = { total, easy, medium, hard, ranking: rank, submissions: subs };
+          }
+        }
+      } catch (e) {
+        console.log('LeetCode Tier 3 GraphQL proxy note:', e);
       }
+    }
+
+    if (result) {
+      setCachedStats({ leetcode: result });
+      const currentCache = getCachedStats() || {};
+      applyStatsToDOM({ ...currentCache, leetcode: result });
+    } else {
+      console.log('LeetCode: Using cached / default fallback values');
+    }
+
+    if (syncStatus) {
+      syncStatus.innerHTML = `<span class="live-dot"></span> Live Synced`;
     }
   }
 
-  // 2. Automatic Real-Time GeeksforGeeks API / Profile Fetcher
+  // 2. Automatic Real-Time GeeksforGeeks API / Profile Fetcher with Multi-Tier Fallbacks
   async function fetchGFGStats(profileInput) {
     const handle = parseUsername(profileInput) || 'anshusingmh62';
     if (!handle) return;
 
+    let solvedCount = null;
+
+    // TIER 1: Dedicated GFG Stats Card API (JSON sum calculation)
     try {
-      let solvedCount = null;
-
-      // Endpoint 1: Dedicated GFG Stats Card API (JSON)
-      try {
-        const res = await fetch(`https://gfgstatscard.vercel.app/${handle}?raw=true`);
-        if (res.ok) {
-          const gfgData = await res.json();
-          if (gfgData) {
-            const calculatedTotal = (gfgData.Basic || 0) + (gfgData.Easy || 0) + (gfgData.Medium || 0) + (gfgData.Hard || 0) + (gfgData.School || 0);
-            solvedCount = gfgData.total_problems_solved || calculatedTotal || 55;
+      const res = await fetch(`https://gfgstatscard.vercel.app/${handle}?raw=true`);
+      if (res.ok) {
+        const gfgData = await res.json();
+        if (gfgData) {
+          const sumTotal = (gfgData.Basic || 0) + (gfgData.Easy || 0) + (gfgData.Medium || 0) + (gfgData.Hard || 0) + (gfgData.School || 0);
+          if (sumTotal > 0) {
+            solvedCount = sumTotal;
+          } else if (gfgData.total_problems_solved && gfgData.total_problems_solved > 0) {
+            solvedCount = gfgData.total_problems_solved;
           }
-        }
-      } catch (e) {
-        console.log('GFG primary API note:', e);
-      }
-
-      // Fallback 1: Scrape GFG profile page HTML via AllOrigins CORS Proxy
-      if (!solvedCount) {
-        try {
-          const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.geeksforgeeks.org/profile/${handle}`)}`);
-          if (proxyRes.ok) {
-            const html = await proxyRes.text();
-            const match = html.match(/"total_problems_solved":\s*(\d+)/) || html.match(/Problems Solved[:\s\w]*(\d+)/i);
-            if (match) {
-              solvedCount = parseInt(match[1], 10);
-            }
-          }
-        } catch (e) {
-          console.log('GFG HTML fallback note:', e);
-        }
-      }
-
-      if (solvedCount && !isNaN(solvedCount) && solvedCount > 0) {
-        const gfgVal = document.getElementById('val-gfg');
-        if (gfgVal) {
-          gfgVal.textContent = solvedCount;
-          calculateTotalQuestions();
         }
       }
     } catch (e) {
-      console.log('GFG live fetch note:', e);
+      console.log('GFG Tier 1 API note:', e);
+    }
+
+    // TIER 2: AllOrigins CORS Proxy to GFG Profile Page HTML
+    if (!solvedCount) {
+      try {
+        const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.geeksforgeeks.org/profile/${handle}`)}`);
+        if (proxyRes.ok) {
+          const html = await proxyRes.text();
+          const match = html.match(/"total_problems_solved":\s*(\d+)/) || html.match(/Problems Solved[:\s\w]*(\d+)/i);
+          if (match) {
+            solvedCount = parseInt(match[1], 10);
+          }
+        }
+      } catch (e) {
+        console.log('GFG Tier 2 HTML scraping note:', e);
+      }
+    }
+
+    if (solvedCount && !isNaN(solvedCount) && solvedCount > 0) {
+      setCachedStats({ gfg: { total: solvedCount } });
+      const currentCache = getCachedStats() || {};
+      applyStatsToDOM({ ...currentCache, gfg: { total: solvedCount } });
     }
   }
 
-  // 3. Automatic Real-Time HackerRank API Fetcher
+  // 3. Automatic Real-Time HackerRank API Fetcher with Multi-Tier Fallbacks
   async function fetchHackerRankStats(profileInput) {
     const handle = parseUsername(profileInput) || 'anshusingh262005';
     if (!handle) return;
 
-    try {
-      let totalSolved = null;
+    let totalSolved = null;
 
-      // Direct HackerRank Badges API endpoint
+    // TIER 1: AllOrigins CORS Proxy for HackerRank Badges API
+    try {
+      const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.hackerrank.com/rest/hackers/${handle}/badges`)}`);
+      if (proxyRes.ok) {
+        const data = await proxyRes.json();
+        if (data && data.models && Array.isArray(data.models)) {
+          let count = 0;
+          data.models.forEach((b) => {
+            count += (b.solved || 0);
+          });
+          if (count > 0) totalSolved = count;
+        }
+      }
+    } catch (e) {
+      console.log('HackerRank Tier 1 proxy note:', e);
+    }
+
+    // TIER 2: CodeTabs Proxy for HackerRank Badges API
+    if (!totalSolved) {
+      try {
+        const proxyRes = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://www.hackerrank.com/rest/hackers/${handle}/badges`)}`);
+        if (proxyRes.ok) {
+          const data = await proxyRes.json();
+          if (data && data.models && Array.isArray(data.models)) {
+            let count = 0;
+            data.models.forEach((b) => {
+              count += (b.solved || 0);
+            });
+            if (count > 0) totalSolved = count;
+          }
+        }
+      } catch (e) {
+        console.log('HackerRank Tier 2 proxy note:', e);
+      }
+    }
+
+    // TIER 3: Direct HackerRank API
+    if (!totalSolved) {
       try {
         const res = await fetch(`https://www.hackerrank.com/rest/hackers/${handle}/badges`);
         if (res.ok) {
@@ -558,54 +712,85 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       } catch (e) {
-        console.log('HackerRank direct endpoint note:', e);
+        console.log('HackerRank Tier 3 direct note:', e);
       }
+    }
 
-      // Fallback: AllOrigins CORS Proxy for HackerRank Badges API
-      if (!totalSolved) {
-        try {
-          const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://www.hackerrank.com/rest/hackers/${handle}/badges`)}`);
-          if (proxyRes.ok) {
-            const data = await proxyRes.json();
-            if (data && data.models && Array.isArray(data.models)) {
-              let count = 0;
-              data.models.forEach((b) => {
-                count += (b.solved || 0);
-              });
-              if (count > 0) totalSolved = count;
-            }
-          }
-        } catch (e) {
-          console.log('HackerRank fallback note:', e);
-        }
-      }
+    if (totalSolved && totalSolved > 0) {
+      setCachedStats({ hackerrank: { total: totalSolved } });
+      const currentCache = getCachedStats() || {};
+      applyStatsToDOM({ ...currentCache, hackerrank: { total: totalSolved } });
+    }
+  }
 
-      if (totalSolved && totalSolved > 0) {
-        const hrVal = document.getElementById('val-hackerrank');
-        if (hrVal) {
-          hrVal.textContent = totalSolved;
-          calculateTotalQuestions();
+  // 4. Automatic LinkedIn Creator Analytics Fetcher (Vercel Serverless API + Local Fallback)
+  async function fetchLinkedInStats() {
+    const syncStatus = document.getElementById('linkedin-sync-status');
+    if (syncStatus) {
+      syncStatus.innerHTML = `<span class="live-dot" style="background:#0a66c2; box-shadow:0 0 8px #0a66c2;"></span> Syncing...`;
+    }
+
+    let linkedinResult = null;
+
+    try {
+      // Try Vercel Serverless endpoint /api/linkedin-stats
+      const res = await fetch('/api/linkedin-stats');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success) {
+          linkedinResult = {
+            followers: data.followers || '1.25K',
+            posts: data.posts || 35,
+            impressions: data.impressions || '15.4K',
+            profileViews: data.profileViews || 480
+          };
         }
       }
     } catch (e) {
-      console.log('HackerRank live fetch note:', e);
+      console.log('LinkedIn Serverless API note:', e);
+    }
+
+    if (!linkedinResult && typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.linkedinStats) {
+      linkedinResult = DEVELOPER_PROFILES.linkedinStats;
+    }
+
+    if (linkedinResult) {
+      setCachedStats({ linkedin: linkedinResult });
+      const currentCache = getCachedStats() || {};
+      applyStatsToDOM({ ...currentCache, linkedin: linkedinResult });
+    }
+
+    if (syncStatus) {
+      syncStatus.innerHTML = `<span class="live-dot" style="background:#0a66c2; box-shadow:0 0 8px #0a66c2;"></span> Live Synced`;
     }
   }
 
   // Trigger Live Sync for all platforms
   function syncAllPlatforms() {
-    if (typeof DEVELOPER_PROFILES !== 'undefined') {
-      fetchLeetCodeStats(DEVELOPER_PROFILES.leetcode || 'anshika_singh580');
-      fetchGFGStats(DEVELOPER_PROFILES.geeksforgeeks || 'anshusingmh62');
-      fetchHackerRankStats(DEVELOPER_PROFILES.hackerrank || 'anshusingh262005');
-    } else {
-      fetchLeetCodeStats('anshika_singh580');
-      fetchGFGStats('anshusingmh62');
-      fetchHackerRankStats('anshusingh262005');
-    }
+    const leetcodeHandle = (typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.leetcode) ? DEVELOPER_PROFILES.leetcode : 'anshika_singh580';
+    const gfgHandle = (typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.geeksforgeeks) ? DEVELOPER_PROFILES.geeksforgeeks : 'anshusingmh62';
+    const hrHandle = (typeof DEVELOPER_PROFILES !== 'undefined' && DEVELOPER_PROFILES.hackerrank) ? DEVELOPER_PROFILES.hackerrank : 'anshusingh262005';
+
+    fetchLeetCodeStats(leetcodeHandle);
+    fetchGFGStats(gfgHandle);
+    fetchHackerRankStats(hrHandle);
+    fetchLinkedInStats();
   }
 
-  // Auto-sync on page load
+  // 1. Immediate Hydration from Cache on Load (Zero Flicker)
+  const initialCache = getCachedStats();
+  if (initialCache) {
+    applyStatsToDOM(initialCache);
+  } else {
+    applyStatsToDOM({
+      leetcode: { total: 127, easy: 70, medium: 50, hard: 7, ranking: '#1,406,582', submissions: 232 },
+      gfg: { total: 55 },
+      hackerrank: { total: 21 },
+      linkedin: { followers: '1.25K', posts: 35, impressions: '15.4K', profileViews: 480 }
+    });
+  }
+
+  // 2. Trigger background live sync
   syncAllPlatforms();
 
   // Add click listener to live status elements to allow manual re-sync
